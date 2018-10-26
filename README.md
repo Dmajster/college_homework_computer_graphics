@@ -1,7 +1,7 @@
 # Computer Graphics (Računalniška grafika)
 
 ## Description
-homework solutions for my 2nd year course of Computer graphics at University of Ljubljana Faculty of Computer and Information science.
+Homework solutions for my 2nd year course of Computer graphics at University of Ljubljana Faculty of Computer and Information science.
 
 ## Demos
 You can see & try the solution for Homework 1 at the following link.  
