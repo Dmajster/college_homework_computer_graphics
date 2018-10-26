@@ -5,13 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>RG Domača naloga 1</title>
+    <style>
+        * {
+            font-family: sans-serif;
+        }
+    </style>
 </head>
 <body>
-    <p>vhodno polje</p>
+    <h1>VHODNO POLJE</h1>
+    <p>Vnesi poljubno število točk v formatu V X Y Z izpis transformiranih točk bo prikazan v izhodnem polju</p>
     <textarea id="pointInput" id="" cols="30" rows="10"></textarea>
 
-    <p>izhodno polje</p>
+    <h1>IZHODNO POLJE</h1>
     <textarea id="pointOutput" id="" cols="30" rows="10" disabled></textarea>
+    
+    <p>izvedene operacije nad vsako točko</p>
+    <ul>
+        <li>translacja vzdolž osi x za 1.25</li>
+        <li>rotacija okoli osi z za kot pi/3</li>
+        <li>translacija vzdolž osi z za 4.15</li>
+        <li>translacija vzdolž osi y za 3.14</li>
+        <li>skalacija vzdolž osi x in y za 1.12</li>
+        <li>rotacija okoli osi y za kot 5*pi/8</li>
+    </ul>
+
+    
 </body>
 <script src="Vector4f.js"></script>
 <script src="Matrix4f.js"></script>
