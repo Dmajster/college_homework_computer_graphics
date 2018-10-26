@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>RG Domača naloga 1</title>
+</head>
+<body>
+    <p>vhodno polje</p>
+    <textarea id="pointInput" id="" cols="30" rows="10"></textarea>
+
+    <p>izhodno polje</p>
+    <textarea id="pointOutput" id="" cols="30" rows="10" disabled></textarea>
+</body>
+<script src="Vector4f.js"></script>
+<script src="Matrix4f.js"></script>
+<script src="PointManager.js"></script>
+<script src="Transformation.js"></script>
+<script src="TransformPoints.js"></script>
+<script>
+    const pointInputTextarea = document.getElementById("pointInput")
+    const pointOutputTextarea = document.getElementById("pointOutput")
+
+    pointInputTextarea.addEventListener("input", () => {
+        pointOutputTextarea.value = PointManager
+            .Parse(pointInputTextarea.value)
+            .map(transformation => {
+                return TransformPoints.Stringify(transformation)
+            })
+            .join("\n")
+    })
+</script>
+</html>
