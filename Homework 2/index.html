@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        html, body, #render{
+            width: 100%;
+            min-height: 100vh;
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="render"></canvas>
+</body>
+<script src="Point.js"></script>
+<script src="Curve.js"></script>
+<script>
+    let canvas = document.getElementById("render");
+    let context = canvas.getContext("2d");
+    canvas.width = canvas.clientWidth;
+    canvas.height = canvas.clientHeight;
+
+    let curve = new Curve( 
+        new InterpolatedPoint(40, 40),
+        new InterpolatedPoint(200, 200),
+        new AproximatedPoint(45, 40),
+        new AproximatedPoint(35, 30)
+    );
+
+    curve.Draw(context);
+</script>
+</html>
