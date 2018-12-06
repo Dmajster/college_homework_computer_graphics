@@ -1,9 +1,9 @@
 class Curve {
-    constructor(i0, i1, a0, a1) {
-        this.i0 = i0;
-        this.i1 = i1;
-        this.a0 = a0;
-        this.a1 = a1;
+    constructor(i0, a0, a1, i1) {
+        this.i0 = new InterpolatedPoint(i0.x, i0.y);
+        this.i1 = new InterpolatedPoint(i1.x, i1.y);
+        this.a0 = new AproximatedPoint(a0.x, a0.y);
+        this.a1 = new AproximatedPoint(a1.x, a1.y);
     }
 
     Draw(context) {

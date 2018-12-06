@@ -19,19 +19,22 @@
 </body>
 <script src="Point.js"></script>
 <script src="Curve.js"></script>
+<script src="CurveManager.js"></script>
 <script>
     let canvas = document.getElementById("render");
     let context = canvas.getContext("2d");
     canvas.width = canvas.clientWidth;
     canvas.height = canvas.clientHeight;
 
-    let curve = new Curve( 
-        new InterpolatedPoint(40, 40),
-        new InterpolatedPoint(200, 200),
-        new AproximatedPoint(45, 40),
-        new AproximatedPoint(35, 30)
-    );
-
-    curve.Draw(context);
+    let curveManager = new CurveManager();
+    canvas.addEventListener("click", (event) => {
+        curveManager.AddPoint(
+            new Point(
+                event.clientX,
+                event.clientY
+            )
+        )
+        curveManager.Draw(context);
+    });
 </script>
 </html>
