@@ -34,7 +34,15 @@
                 event.clientY
             )
         )
+        context.clearRect(0, 0, canvas.width, canvas.height);
         curveManager.Draw(context);
     });
+
+    canvas.addEventListener("resize", (event) => {
+        canvas.width = canvas.clientWidth;
+        canvas.height = canvas.clientHeight;
+        curveManager.Draw(context);
+    });
+
 </script>
 </html>

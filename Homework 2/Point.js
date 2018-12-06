@@ -9,18 +9,18 @@ class Point {
 class AproximatedPoint extends Point {
     Draw(context, radius = 5){
         context.beginPath();
-        context.arc(this.x-radius,this.y-radius,radius,0,2*Math.PI);
+        context.arc(this.x,this.y,radius,0,2*Math.PI);
         context.fill();
     }
 }
 
 class InterpolatedPoint extends Point {
-    Draw(context, size = 20){
+    Draw(context, size = 10){
         context.fillRect(
             this.x-size/2, 
             this.y-size/2, 
-            size/2, 
-            size/2
+            size, 
+            size
         )
     }
 }
