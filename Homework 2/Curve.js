@@ -13,6 +13,10 @@ class Curve {
         this.i1 = this.points[3];
     }
 
+    GetIndex(point){
+        return this.points.findIndex( checkedPoint => checkedPoint.x == point.x && checkedPoint.y == point.y );
+    }
+
     Lerp(a, b, t) {
         return (1 - t) * a + t * b;
     }

@@ -49,6 +49,7 @@
 
     canvas.addEventListener("mouseup", (event) => {
         dragging = false;
+        curveManager.activePoint = null;
     });
 
     canvas.addEventListener("mousemove", (event) => {
