@@ -4,6 +4,7 @@ class Curve {
         this.i1 = new InterpolatedPoint(i1.x, i1.y);
         this.a0 = new AproximatedPoint(a0.x, a0.y);
         this.a1 = new AproximatedPoint(a1.x, a1.y);
+        this.points = [this.i0, this.a0, this.a1, this.i1]
     }
 
     Lerp(a, b, t) {
@@ -18,7 +19,7 @@ class Curve {
     }
 
     DrawCurvePoint(t){
-        return this._DrawCurvePoint([this.i0, this.a0, this.a1, this.i1], t);
+        return this._DrawCurvePoint(this.points, t);
     }
 
     _DrawCurvePoint(points, t){
@@ -40,11 +41,18 @@ class Curve {
             let point = this.DrawCurvePoint(i);
             context.lineTo(point.x,point.y);
         }
+        context.lineTo(this.i1.x, this.i1.y);
         context.stroke();
     }
 
 
     Draw(context) {
+        context.beginPath();
+        context.moveTo(this.i0.x,this.i0.y);
+        context.lineTo(this.a0.x,this.a0.y);
+        context.moveTo(this.i1.x,this.i1.y);
+        context.lineTo(this.a1.x,this.a1.y);
+        context.stroke();
         this.DrawCurve(0.1);
         this.i0.Draw(context);
         this.i1.Draw(context);

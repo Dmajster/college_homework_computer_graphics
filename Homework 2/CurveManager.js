@@ -2,6 +2,7 @@ class CurveManager {
     constructor() {
         this.points = [];
         this.curves = [];
+        this.activePoint = null;
     }
 
     AddPoint(point) {
@@ -34,6 +35,20 @@ class CurveManager {
                 )
             )
         }
+    }
+
+    Clicked(mouse) {
+        this.curves.forEach((curve) => {
+            //console.log(curve);
+            curve.points.forEach((point) =>{
+                //console.log(point)
+                if(point.Clicked(mouse)) {
+                    this.activePoint = point;
+                    return true;
+                }
+            })
+        })
+        return false;
     }
 
     Draw(context) {
