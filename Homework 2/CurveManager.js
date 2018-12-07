@@ -12,9 +12,9 @@ class CurveManager {
     }
 
     MovePoint(point, position){
-        console.log("da",point);
         point.x = position.x;
         point.y = position.y;
+        this.CreateCurves();
     }
 
     CreateCurves(){
@@ -49,7 +49,9 @@ class CurveManager {
             for( let point of curve.points ){
                 if(point.Clicked(mouse)){
                     this.selected = true;
-                    this.activePoint = point;
+                    this.activePoint = this.points.find( (checkedPoint) => checkedPoint.x == point.x && checkedPoint.y == point.y)
+                    console.log(this.points,point);
+                    console.log(this.activePoint);
                     return true;
                 }
             }

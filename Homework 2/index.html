@@ -32,16 +32,19 @@
     canvas.addEventListener("mousedown", (event) => {
         let mouse = new Point(event.clientX, event.clientY);
         dragging = true;
-        if( curveManager.Clicked(mouse) ){
-            console.log("clicked");
-            return;
-        } else {
-            curveManager.AddPoint(mouse);
-        }
 
-        
+        if( curveManager.Clicked(mouse) )
+            return;
+
+        curveManager.AddPoint(mouse);
+
         Clear();
         curveManager.Draw(context);
+
+        
+        context.fillStyle="#FF0000";
+        context.fillRect(mouse.x-5, mouse.y,10,10);
+        context.fillStyle="#000000";
     });
 
     canvas.addEventListener("mouseup", (event) => {

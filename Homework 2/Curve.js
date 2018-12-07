@@ -1,10 +1,16 @@
 class Curve {
     constructor(i0, a0, a1, i1) {
-        this.i0 = new InterpolatedPoint(i0.x, i0.y);
-        this.i1 = new InterpolatedPoint(i1.x, i1.y);
-        this.a0 = new AproximatedPoint(a0.x, a0.y);
-        this.a1 = new AproximatedPoint(a1.x, a1.y);
-        this.points = [this.i0, this.a0, this.a1, this.i1]
+        this.points = [
+            new InterpolatedPoint(i0.x, i0.y),
+            new AproximatedPoint(a0.x, a0.y),
+            new AproximatedPoint(a1.x, a1.y),
+            new InterpolatedPoint(i1.x, i1.y)
+        ];
+
+        this.i0 = this.points[0];
+        this.a0 = this.points[1];
+        this.a1 = this.points[2];
+        this.i1 = this.points[3];
     }
 
     Lerp(a, b, t) {
@@ -53,7 +59,7 @@ class Curve {
         context.moveTo(this.i1.x,this.i1.y);
         context.lineTo(this.a1.x,this.a1.y);
         context.stroke();
-        this.DrawCurve(0.1);
+        this.DrawCurve(0.01);
         this.i0.Draw(context);
         this.i1.Draw(context);
         this.a0.Draw(context);

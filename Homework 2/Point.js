@@ -27,7 +27,7 @@ class AproximatedPoint extends Point {
         return Math.sqrt(
             Math.pow(mouse.x-this.x,2) +
             Math.pow(mouse.y-this.y,2)
-        ) < this.radius;
+        ) < this.radius * 2;
     }
 }
 
@@ -47,9 +47,9 @@ class InterpolatedPoint extends Point {
     }
 
     Clicked(mouse){
-        return  mouse.x > this.x - this.size/2 && 
-                mouse.y > this.y - this.size/2 && 
-                mouse.x < this.x + this.size/2 && 
-                mouse.y < this.y + this.size/2;
+        return  mouse.x > this.x - this.size && 
+                mouse.y > this.y - this.size && 
+                mouse.x < this.x + this.size && 
+                mouse.y < this.y + this.size;
     }
 }
