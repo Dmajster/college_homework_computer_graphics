@@ -6,11 +6,13 @@ class Curve {
             new AproximatedPoint(a1.x, a1.y),
             new InterpolatedPoint(i1.x, i1.y)
         ];
-
         this.i0 = this.points[0];
         this.a0 = this.points[1];
         this.a1 = this.points[2];
         this.i1 = this.points[3];
+        
+        this.color = "#000000";
+        this.collisionPoints = [];
     }
 
     GetIndex(point){
@@ -50,6 +52,7 @@ class Curve {
         for( let i = 0; i < 1; i+=gap){
             let point = this.DrawCurvePoint(i);
             context.lineTo(point.x,point.y);
+            this.collisionPoints.push(point);
         }
         context.lineTo(this.i1.x, this.i1.y);
         context.stroke();
@@ -63,10 +66,16 @@ class Curve {
         context.moveTo(this.i1.x,this.i1.y);
         context.lineTo(this.a1.x,this.a1.y);
         context.stroke();
+
+        context.strokeStyle=this.color;
         this.DrawCurve(0.01);
+        context.strokeStyle="#000000";
+
+        context.fillStyle="#2468d6";
         this.i0.Draw(context);
         this.i1.Draw(context);
         this.a0.Draw(context);
         this.a1.Draw(context);
+        context.fillStyle="#000000";
     }
 }

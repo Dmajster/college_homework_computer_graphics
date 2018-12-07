@@ -3,13 +3,13 @@ class CurveManager {
         this.points = [];
         this.curves = [];
         this.activePoint = null;
+        this.activeCurve = null;
         this.selected = false;
+        this.color = "#000000";
     }
 
     AddPoint(point) {
         this.points.push(point);
-        this.CreateCurves();
-        this.MakeCoherent(point);
         this.CreateCurves();
     }
 
@@ -28,9 +28,8 @@ class CurveManager {
     }
 
     IsAproximatedPoint(point){
-        let index = this.GetCurveIndex(point);
-
-        if( index == 1 || index == 2){
+        let curveIndex = this.GetCurveIndex(point);
+        if( curveIndex == 1 || curveIndex == 2){
             return true;
         }
         
@@ -53,8 +52,9 @@ class CurveManager {
     }
 
     MakeCoherent(point){
-        if( !this.IsAproximatedPoint(point) )
+        if( !this.IsAproximatedPoint(point) ) {
             return;
+        }
 
         let index = this.GetIndex(point);
         let curveIndex = this.GetCurveIndex(point);
@@ -135,6 +135,12 @@ class CurveManager {
                 )
             )
         }
+
+        for( let curve of this.curves){
+            for( let point of curve.points){
+                this.MakeCoherent(point);
+            }
+        }
     }
 
     Clicked(mouse) {
@@ -150,7 +156,22 @@ class CurveManager {
         return false;
     }
 
+    ClickedCurve(mouse, collisionMargin = 5) {
+        for( let curve of this.curves ){
+            for( let point of curve.collisionPoints ){
+                if( this.Distance(mouse,point) < collisionMargin){
+                    activeCurve = curve;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     Draw(context) {
-        this.curves.forEach(curve => curve.Draw(context))
+        this.curves.forEach(curve => {
+            curve.color = this.color;
+            curve.Draw(context);
+        })
     }
 }

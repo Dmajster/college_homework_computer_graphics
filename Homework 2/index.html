@@ -12,9 +12,36 @@
             padding: 0;
             margin: 0;
         }
+        
+        #aside{
+            display: grid;
+            position: fixed;
+            grid-auto-flow: row;
+            top: 0;
+            left: 0;
+        }
+
+        #new, #select, #color{
+            display: grid;
+            align-content: center;
+            justify-content: center;
+
+            margin: 20px 0 0 20px;
+            border: 0;
+            background-color: white;
+            box-shadow: 1px 1px 2px 2px rgba(0,0,0,0.2);
+            border-radius: 50px;
+            height: 40px;
+            width: 40px;
+        }
     </style>
 </head>
 <body>
+    <aside id="aside">
+        <button id="new" class="active">➕</button>
+        <button id="select">👉</button>
+        <input type="color" id="color">
+    </aside>
     <canvas id="render"></canvas>
 </body>
 <script src="Point.js"></script>
@@ -22,56 +49,95 @@
 <script src="CurveManager.js"></script>
 <script>
     let canvas = document.getElementById("render");
+    let newCurve = document.getElementById("new");
+    let selectCurve = document.getElementById("select");
+    let colorPicker = document.getElementById("color");
+
+    let dragging = false;
+    let mode = 0;
+
     let context = canvas.getContext("2d");
     canvas.width = canvas.clientWidth;
     canvas.height = canvas.clientHeight;
 
-    let dragging = false;
+    let activeCurveManager = {};
+    let curveManagers = [];
+    let NewCurveManager = () => {
+        activeCurveManager = new CurveManager();
+        curveManagers.push(activeCurveManager)
+    }
 
-    let curveManager = new CurveManager();
+    let Draw = () => {
+        Clear();
+        curveManagers.forEach(activeCurveManager => activeCurveManager.Draw(context));
+    }
+
+    let Clear = () => {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+    }
+    
+    let ClickedCurve = (mouse) => {
+        for( curveManager of curveManagers ){
+            if( curveManager.Clicked(mouse) ){
+                activeCurveManager = curveManager;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    NewCurveManager();
+
     canvas.addEventListener("mousedown", (event) => {
-        let mouse = new Point(event.clientX, event.clientY);
+        let mouse = new Point(event.offsetX, event.offsetY);
         dragging = true;
 
-        if( curveManager.Clicked(mouse) )
+        if( ClickedCurve(mouse) )
             return;
 
-        curveManager.AddPoint(mouse);
-
-        Clear();
-        curveManager.Draw(context);
-
-        
-        context.fillStyle="#FF0000";
-        context.fillRect(mouse.x-5, mouse.y,10,10);
-        context.fillStyle="#000000";
+        switch(mode) {
+            case 0:
+                activeCurveManager.AddPoint(mouse);
+                Draw();
+            break;
+        }
     });
 
     canvas.addEventListener("mouseup", (event) => {
         dragging = false;
-        curveManager.activePoint = null;
+        activeCurveManager.activePoint = null;
     });
 
     canvas.addEventListener("mousemove", (event) => {
-        if( dragging && curveManager.selected ){
-            curveManager.MovePoint(
-                curveManager.activePoint, 
-                new Point(event.clientX, event.clientY)
+        if( dragging && activeCurveManager.selected ){
+            activeCurveManager.MovePoint(
+                activeCurveManager.activePoint, 
+                new Point(event.offsetX, event.offsetY)
             )
-            Clear();
-            curveManager.Draw(context);
+            Draw();
         }
     });
 
     canvas.addEventListener("resize", (event) => {
         canvas.width = canvas.clientWidth;
         canvas.height = canvas.clientHeight;
-        Clear();
-        curveManager.Draw(context);
+        Draw();
     });
 
-    let Clear = () => {
-        context.clearRect(0, 0, canvas.width, canvas.height);
-    }
+    selectCurve.addEventListener("click", (event) => {
+        mode = 1;
+    })
+
+    newCurve.addEventListener("click", (event) => {
+        mode = 0;
+        NewCurveManager();
+    })
+
+    colorPicker.addEventListener("input", (event) => {
+        mode = 1;
+        activeCurveManager.color = colorPicker.value;
+        Draw();
+    })
+
 </script>
 </html>
