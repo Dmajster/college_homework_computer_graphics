@@ -67,6 +67,7 @@ class Curve {
         context.lineTo(this.a1.x,this.a1.y);
         context.stroke();
 
+        
         context.strokeStyle=this.color;
         this.DrawCurve(0.01);
         context.strokeStyle="#000000";

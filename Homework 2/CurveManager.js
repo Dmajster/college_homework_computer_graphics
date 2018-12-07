@@ -143,6 +143,24 @@ class CurveManager {
         }
     }
 
+    SplitAt(array,index){
+        return [array.slice(0, index), array.slice(index-1)];
+    } 
+
+    DeleteCurve(curveManagers){
+        if( this.activeCurve == -1 )
+            return;
+
+
+        let idPoint = this.curves[this.activeCurve].points[0];
+        let index = this.GetIndex(idPoint);
+
+        let pointsSplit = this.SplitAt(this.points,index);
+        this.points = pointsSplit[0];
+        let curvesSplit = this.SplitAt(this.curves,this.activeCurve);
+        this.curves = curvesSplit[0];
+    }
+
     Clicked(mouse) {
         for( let curve of this.curves ){
             for( let point of curve.points ){
@@ -157,20 +175,24 @@ class CurveManager {
     }
 
     ClickedCurve(mouse, collisionMargin = 5) {
-        for( let curve of this.curves ){
-            for( let point of curve.collisionPoints ){
+        for( let index in this.curves ){
+            for( let point of this.curves[index].collisionPoints ){
                 if( this.Distance(mouse,point) < collisionMargin){
-                    activeCurve = curve;
+                    this.activeCurve = index;
                     return true;
                 }
             }
         }
+        this.activeCurve = -1;
         return false;
     }
 
     Draw(context) {
-        this.curves.forEach(curve => {
+        this.curves.forEach( (curve, index) => {
             curve.color = this.color;
+            if( index == this.activeCurve ){
+                curve.color="#ff0000";
+            }
             curve.Draw(context);
         })
     }
