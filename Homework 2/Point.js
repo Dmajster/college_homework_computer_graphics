@@ -1,6 +1,5 @@
 class Point {    
     constructor(x = 0, y = 0) {
-        this.selected = false;
         this.x = x;
         this.y = y;
     }
@@ -14,7 +13,13 @@ class AproximatedPoint extends Point {
     
     Draw(context){
         context.beginPath();
-        context.arc(this.x,this.y,this.radius,0,2*Math.PI);
+        context.arc(
+            this.x,
+            this.y+this.radius, //Offset for weird mouse behaviour
+            this.radius,
+            0,
+            2*Math.PI
+        );
         context.fill();
     }
 
@@ -34,8 +39,8 @@ class InterpolatedPoint extends Point {
 
     Draw(context){
         context.fillRect(
-            this.x-this.size/2, 
-            this.y-this.size/2, 
+            this.x-this.size/2, //Offset for weird mouse behaviour
+            this.y, 
             this.size, 
             this.size
         )

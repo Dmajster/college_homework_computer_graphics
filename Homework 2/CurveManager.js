@@ -3,11 +3,18 @@ class CurveManager {
         this.points = [];
         this.curves = [];
         this.activePoint = null;
+        this.selected = false;
     }
 
     AddPoint(point) {
         this.points.push(point);
         this.CreateCurves();
+    }
+
+    MovePoint(point, position){
+        console.log("da",point);
+        point.x = position.x;
+        point.y = position.y;
     }
 
     CreateCurves(){
@@ -38,16 +45,15 @@ class CurveManager {
     }
 
     Clicked(mouse) {
-        this.curves.forEach((curve) => {
-            //console.log(curve);
-            curve.points.forEach((point) =>{
-                //console.log(point)
-                if(point.Clicked(mouse)) {
+        for( let curve of this.curves ){
+            for( let point of curve.points ){
+                if(point.Clicked(mouse)){
+                    this.selected = true;
                     this.activePoint = point;
                     return true;
                 }
-            })
-        })
+            }
+        }
         return false;
     }
 

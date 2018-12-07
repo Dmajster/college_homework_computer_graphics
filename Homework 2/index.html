@@ -26,34 +26,48 @@
     canvas.width = canvas.clientWidth;
     canvas.height = canvas.clientHeight;
 
+    let dragging = false;
+
     let curveManager = new CurveManager();
-    canvas.addEventListener("click", (event) => {
+    canvas.addEventListener("mousedown", (event) => {
         let mouse = new Point(event.clientX, event.clientY);
+        dragging = true;
         if( curveManager.Clicked(mouse) ){
             console.log("clicked");
             return;
+        } else {
+            curveManager.AddPoint(mouse);
         }
 
-        curveManager.AddPoint(
-            new Point(
-                event.clientX,
-                event.clientY
-            )
-        )
-        context.clearRect(0, 0, canvas.width, canvas.height);
+        
+        Clear();
         curveManager.Draw(context);
+    });
 
-        context.fillStyle="#FF0000";
-        context.fillRect(mouse.x-5, mouse.y-5,10,10);
-        context.fillStyle="#000000";
+    canvas.addEventListener("mouseup", (event) => {
+        dragging = false;
+    });
+
+    canvas.addEventListener("mousemove", (event) => {
+        if( dragging && curveManager.selected ){
+            curveManager.MovePoint(
+                curveManager.activePoint, 
+                new Point(event.clientX, event.clientY)
+            )
+            Clear();
+            curveManager.Draw(context);
+        }
     });
 
     canvas.addEventListener("resize", (event) => {
         canvas.width = canvas.clientWidth;
         canvas.height = canvas.clientHeight;
-        context.clearRect(0, 0, canvas.width, canvas.height);
+        Clear();
         curveManager.Draw(context);
     });
 
+    let Clear = () => {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+    }
 </script>
 </html>
