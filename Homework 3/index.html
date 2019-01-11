@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>RG Domača naloga 3</title>
+    <style>
+        html,
+        body,
+        #render {
+            width: 100%;
+            min-height: 100vh;
+            border: 0;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        #aside {
+            display: grid;
+            position: fixed;
+            grid-auto-flow: row;
+            top: 0;
+            left: 0;
+        }
+
+        #grid {
+            display: grid;
+            align-content: center;
+            justify-content: center;
+
+            margin: 20px 0 0 20px;
+            border: 0;
+            background-color: white;
+            box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.2);
+            border-radius: 50px;
+            height: 40px;
+            width: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <aside id="aside">
+        <button id="grid" class="active">➕</button>
+    </aside>
+    <canvas id="render"></canvas>
+    <script src="Quadtree.js"></script>
+    <script src="Collider.js"></script>
+    <script>
+        const canvas = document.getElementById("render");
+        const grid = document.getElementById("grid");
+        const context = canvas.getContext("2d");
+        canvas.width = canvas.clientWidth;
+        canvas.height = canvas.clientHeight;
+
+        let enabled = true;
+
+        grid.addEventListener("click", (event) => {
+            enabled = !enabled;
+        });
+        
+        canvas.addEventListener("mousedown", (event) => {
+            let collider = new Collider(
+                event.offsetX,
+                event.offsetY,
+                randomRange(1, 8),
+                randomRange(-1, 1),
+                randomRange(-1, 1)
+            );
+            colliders.push(collider);
+        });
+
+        canvas.addEventListener("resize", (event) => {
+            canvas.width = canvas.clientWidth;
+            canvas.height = canvas.clientHeight;
+        });
+
+        randomRange = (min, max) => min + Math.random() * (max - min);
+
+        const colliders = [];
+        const fps = 60;
+        setInterval(() => {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+
+            colliders.forEach(collider => collider.hit = false);
+            let quadtree = new Quadtree(0, 0, canvas.width, canvas.height, colliders);
+            quadtree.collisionCheck();
+
+            colliders.forEach(collider => {
+                collider.move(context);
+                collider.draw(context);
+            });
+
+            if (enabled) {
+                quadtree.draw(context);
+            }
+        }, 1000 / fps);
+    </script>
+</body>
+
+</html>
